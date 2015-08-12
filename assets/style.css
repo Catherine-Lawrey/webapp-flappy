@@ -1,0 +1,52 @@
+h1 {
+    color: indigo;
+    font-size: 40px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+p {
+    color: navy;
+    font-size: 20px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a:-webkit-any-link {
+    color: navy;
+    font-size: 20px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h2 {
+    color: ThreeDShadow;
+    font-size: 30px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+li {
+    color: navy;
+    font-size: 20px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h3 {
+    color: ThreeDShadow;
+    font-size: 25px;
+    font-family: Reprise Script, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#gameLink {
+    text-align: center;
+    border: 1px solid gray;
+}
+
+#greeting {
+    position: absolute;
+left: 40%;
+top: 30%;
+background: #fff;
+width: 350px;
+height: 300px;
+border: 2px solid gray;
+border-radius: 5px;
+padding: 20px;
+}
