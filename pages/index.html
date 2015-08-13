@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <title> Rocket Ship </title>
@@ -26,37 +26,47 @@
 
 
             <div id="game"></div>
-
-            <ul>
-                <h2>Instructions...</h2>
-                <ul>
-                    <li>Press the space bar to move</li>
-                    <li>Avoid the asteroids</li>
-                    <li>Score as high as you can!</li>
-                </ul>
         </div>
     </div>
-</div>
+     <div class="row">
+         <div class="col-md-6">
+             <h2>Instructions...</h2>
+             <ul>
+                 <li>Press the space bar to move</li>
+                 <li>Avoid the asteroids</li>
+                 <li>Score as high as you can!</li>
+             </ul>
+         </div>
 
-<div id="greeting">
-    <form id="greeting-form" class="form-inline">
-        <div class="form-group">
-            <label for="fullName">What's your name?</label>
-            <input type="text" id="fullName" class="form-control"
-                   name="fullName" placeholder="Captain Spaceman">
+         <div class="col-md-6">
+             <h3>High Scores!</h3>
 
-            <label for="email">What's your email?</label>
-            <input type="email" id="email" class="form-control"
-                   name="email" placeholder="space@email.com">
-            <input type="hidden" id="score" name="score" value="0">
-
+             <ul id="scoreBoard">
+             </ul>
+         </div>
         </div>
-        <button class="btn btn-default" type="submit">OK</button>
-    </form>
-</div>
 
-<script src="../lib/jquery.js"></script>
-<script src="../lib/phaser.min.js"></script>
-<script src="../js/flappy.js"></script>
+</div>
+    <div id="greeting">
+        <form id="greeting-form" method="post" action="/score">
+            <div class="form-group">
+                <label for="fullName">What's your name?</label>
+                <input type="text" id="fullName" class="form-control"
+                       name="fullName" placeholder="Captain Spaceman" required>
+
+                <label for="email">What's your email?</label>
+                <input type="email" id="email" class="form-control"
+                       name="email" placeholder="space@email.com">
+                <input type="hidden" id="score" name="score" value="0">
+
+            </div>
+            <button class="btn btn-default" type="submit">OK</button>
+        </form>
+    </div>
+
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/phaser.min.js"></script>
+    <script src="../js/flappy.js"></script>
+
 </body>
 </html>

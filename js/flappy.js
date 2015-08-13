@@ -1,4 +1,5 @@
 // the Game object used by the phaser.io library
+
 var stateActions = {preload: preload, create: create, update: update};
 
 // Phaser parameters:
@@ -19,6 +20,11 @@ var count = 0;
 var gap = game.rnd.integerInRange(1, 5);
 var block;
 var pipes = [];
+var moon2;
+var star;
+var stars = [];
+var randomNumber1 = game.rnd.integerInRange(1, 6);
+var randomNumber2 = game.rnd.integerInRange(1, 6);
 
 function changeScore() {
     score = score + 1;
@@ -32,7 +38,7 @@ jQuery("#greeting-form").on("submit", function(event_details) {
     jQuery("#greeting").hide();
     game.paused = false;
     //jQuery("#greeting").append("<p>" + greeting_message + "</p>");
-    event_details.preventDefault();
+    //event_details.preventDefault();
 });
 
 function preload() {
@@ -40,6 +46,8 @@ function preload() {
     game.load.image("backgroundImg", "../assets/space background.png");
     game.load.audio("score", "../assets/point.ogg");
     game.load.image("pipe", "../assets/moon.png");
+    game.load.image("moon2", "../assets/moon2.png");
+    game.load.image("star", "../assets/star.png");
 }
 
 /*
@@ -65,25 +73,25 @@ function create() {
     labelScore = game.add.text(750, 20, "0", {font: "30px Reprise Script", fill: "#ffA500"});
 
     player = game.add.sprite (50,120, "playerImg");
-game.physics.arcade.enable(player);
-    game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-        .onDown.add(moveRight);
-    game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-        .onDown.add(moveLeft);
-    game.input.keyboard.addKey(Phaser.Keyboard.UP)
-        .onDown.add(moveUp);
-    game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
-        .onDown.add(moveDown);
-    game.paused = true;
+//game.physics.arcade.enable(player);
+    //game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
+        //.onDown.add(moveRight);
+    //game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
+        //.onDown.add(moveLeft);
+    //game.input.keyboard.addKey(Phaser.Keyboard.UP)
+        //.onDown.add(moveUp);
+    //game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
+        //.onDown.add(moveDown);
+    //game.paused = true;
     generatePipe();
+generatemoon2 ();
+    generatestar ();
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.physics.arcade.enable(player);
 
     player.body.gravity.y = 250;
-
-
 
 
 
@@ -95,6 +103,16 @@ game.physics.arcade.enable(player);
     game.time.events
         .loop(pipeInterval * Phaser.Timer.SECOND,
     generatePipe);
+
+    moon2Interval = 3.00;
+    game.time.events
+        .loop(moon2Interval * Phaser.Timer.SECOND,
+        generatemoon2);
+
+    starInterval = 1.10;
+    game.time.events
+        .loop(starInterval * Phaser.Timer.SECOND,
+        generatestar);
 }
 
 function playerJump() {
@@ -115,6 +133,7 @@ function moveDown() {
 }
 
 function clickHandler(event) {
+
 }
 
 function spaceHandler() {
@@ -128,15 +147,46 @@ function addPipeBlock(x, y) {
     pipeBlock.body.velocity.x = -120;
 }
 
+
 function generatePipe() {
-    var gap = game.rnd.integerInRange(1, 5);
-    for (var count = 0; count < 8; count++) {
-        if (count != gap && count != gap + 1) {
-            addPipeBlock(790, count * 50);
-        }
-    }
-    changeScore();
+    var positionY = game.rnd.integerInRange(50, 350);
+    var positionX = game.rnd.integerInRange(750, 1000);
+    //for (var count = 0; count < 8; count++) {
+    //    if (count != gap && count != gap + 1) {
+    //        addPipeBlock(790, count * 50);
+    //    }
+    //}
+    addPipeBlock(positionX, positionY);
+    addPipeBlock(positionX, positionY);
 }
+function generatemoon2() {
+    var positionY = game.rnd.integerInRange(50, 350);
+    var positionX = game.rnd.integerInRange(750, 1000);
+
+    addmoon2Block(positionX, positionY);
+}
+
+function addmoon2Block(x, y) {
+    var moon2Block = game.add.sprite(x,y,"moon2");
+    pipes.push(moon2Block);
+    game.physics.arcade.enable(moon2Block);
+    moon2Block.body.velocity.x = -120;
+}
+
+function generatestar() {
+    var positionY = game.rnd.integerInRange(50, 350);
+    var positionX = game.rnd.integerInRange(750, 1000);
+
+    addstarBlock(positionX, positionY);
+}
+
+function addstarBlock(x, y) {
+    var starBlock = game.add.sprite(x,y,"star");
+    stars.push(starBlock);
+    game.physics.arcade.enable(starBlock);
+    starBlock.body.velocity.x = -120;
+}
+
 
 // set the background colour of the scene}
 
@@ -147,11 +197,24 @@ function update() {
     for(var index=0; index<pipes.length; index++){
         game.physics.arcade
             .overlap(player, pipes[index],
-        gameOver);
+            gameOver);
+        if(player.body.y < 0 || player.body.y > 400){
+            gameOver();
+        }
     }
+    game.physics.arcade.overlap(player,stars, changeScore);
 }
 function gameOver() {
     game.paused = true;
     //location.reload();
     jQuery("#score").val(score.toString());
+    jQuery("#greeting").show();
 }
+
+$.get("/score", function(scores){
+    //var scores = JSON.parse(data);
+    for (var i = 0; i < scores.length; i++) {
+        $("#scoreBoard").append("<li>" + scores[i].name + ": " +
+        scores[i].score + "</li>");
+    }
+});
